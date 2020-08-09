@@ -1,0 +1,158 @@
+viatura_codigo;viatura_descricao;distritosanitario_codigo;tipoviatura_codigo;tipoviatura_descricao
+107;USB 01 - Itambe;28;1;Básica
+108;USB 01 - Chã Grande;29;1;Básica
+109;USA 01 - Carpina;30;2;UTI
+110;USB 01 - Carpina;30;1;Básica
+138;USB 01 - São J da Coroa Grande;69;1;Básica
+155;USB 01 - Catende;75;1;Básica
+100;USB 03 - Goiana;13;1;Básica
+101;USB 04 - Goiana;13;1;Básica
+111;USB 01 - Chã de Alegria;31;1;Básica
+112;USB 01 - Glória do Goitá;32;1;Básica
+125;USB 01 - Lagoa do Carro;50;1;Básica
+134;USB 01 - Ribeirão;61;1;Básica
+135;USB 01 - Orobo;62;1;Básica
+157;USB 01 - Agua Preta;77;1;Básica
+66;USA 01 - Olinda;10;2;UTI
+64;USB 01 - Ilha de Itamaracá;20;1;Básica
+1;USA 01 - Recife;1;2;UTI
+2;USA 02 - Recife;1;2;UTI
+3;USA 03 - Recife;5;2;UTI
+4;USB 04 - Recife;1;1;Básica
+5;USB 05 - Recife;1;1;Básica
+6;USB 06 - Recife;5;1;Básica
+7;USB 07 - Recife;5;1;Básica
+8;USB 08 - Recife;5;1;Básica
+9;USB 09 - Recife;6;1;Básica
+10;USB 10 - Recife;6;1;Básica
+11;USB 11 - Recife;6;1;Básica
+12;USB 12 - Recife;3;1;Básica
+13;USB 13 - Recife;3;1;Básica
+51;USB 02 - Olinda;10;1;Básica
+52;USB 02 - Paulista;8;1;Básica
+53;USA 01 - Ipojuca;9;2;UTI
+54;USB 02 - Jaboatão Guararapes;7;1;Básica
+55;USB 01 - São Lourenço da Mata;11;1;Básica
+56;USB 01 - Abreu e Lima;12;5;Básica sem Maca
+57;USA 01 - Goiana;13;2;UTI
+58;USA 01 - Igarassu;14;2;UTI
+59;USA 01 - Cabo de S. Agostinho;15;2;UTI
+60;USB 01 - Camaragibe;16;5;Básica sem Maca
+14;USB 14 - Recife;3;1;Básica
+15;USB 15 - Recife;2;1;Básica
+61;USA 01 - Vitória de S. Antão;17;2;UTI
+62;USB 01 - Moreno;18;1;Básica
+63;USB 01 - Condado;19;1;Básica
+16;USB 01 - Recife;1;1;Básica
+17;USB 02 - Igarassu;14;1;Básica
+18;USB 02 - Camaragibe;16;1;Básica
+19;USB 02 - Cabo de S. Agostinho;15;1;Básica
+20;USB 03 - Cabo de S. Agostinho;15;1;Básica
+21;Apoio - Ipojuca;9;3;Apoio rápido
+22;USB 02 - Ipojuca;9;1;Básica
+32;USB 05 - Olinda;10;1;Básica
+33;USB 05 - Jaboatão Guararapes;7;1;Básica
+34;USB 06 - Jaboatão Guararapes;7;1;Básica
+36;USB 07 - Jaboatão Guararapes;7;1;Básica
+38;USB 02 - Vitória de S. Antão;17;1;Básica
+23;USA 01 - Jaboatão Guararapes;7;2;UTI
+24;USB 03 - Olinda;10;1;Básica
+25;USB 04 - Olinda;10;1;Básica
+26;USA 01 - Paulista;8;2;UTI
+27;USB 03 - Paulista;8;1;Básica
+28;USB 04 - Paulista;8;1;Básica
+29;USB 02 - Goiana;13;1;Básica
+30;USB 03 - Jaboatão Guararapes;7;1;Básica
+31;USB 04 - Jaboatão Guararapes;7;1;Básica
+65;Helicóptero PRF;3;4;Helicóptero
+70;USA 01 - Fernando de Noronha;22;2;UTI
+71;MOTO 01 - Recife;1;3;Apoio rápido
+72;MOTO 02 - Recife;2;3;Apoio rápido
+73;MOTO 03 - Recife;3;3;Apoio rápido
+67;USB 01 - Itapissuma;21;1;Básica
+74;USB 01 - Araçoiaba;23;1;Básica
+79;USB 02 - Ilha de Itamaracá;20;5;Básica sem Maca
+87;USB 01 - Jaboatão Guararapes;7;1;Básica
+88;USB 08 - Jaboatão Guararapes;7;1;Básica
+89;MOTO 01 - Jaboatão Guararapes;7;3;Apoio rápido
+90;USB 01 - Olinda;10;1;Básica
+91;USB 06 - Olinda;10;1;Básica
+92;USB 01 - Paulista;8;1;Básica
+93;MOTO 01 - Paulista;8;3;Apoio rápido
+94;USB 02 - São Lourenço da Mata;11;1;Básica
+95;USB 01 - Vitória de S. Antão;17;1;Básica
+96;MOTO 01 - Vitória de S. Antão;17;3;Apoio rápido
+97;USB 16 - Recife;2;1;Básica
+68;Apoio Rápido - Recife;1;3;Apoio rápido
+83;MOTO 01 - Igarassu;14;3;Apoio rápido
+84;USB 01 - Ipojuca;9;1;Básica
+85;MOTO 01 - Ipojuca;9;3;Apoio rápido
+86;USB 02 - Itapissuma;21;1;Básica
+69;DESATIVADA;1;2;UTI
+75;USB 02 - Abreu e Lima;12;1;Básica
+76;USB 03 - Igarassu;14;1;Básica
+77;USB 01 - Cabo de S. Agostinho;15;1;Básica
+78;MOTO 01 - Cabo de S. Agostinho;15;3;Apoio rápido
+80;USA 01 - Camaragibe;16;2;UTI
+81;USB 01 - Goiana;13;1;Básica
+82;MOTO 01 - Goiana;13;3;Apoio rápido
+104;USA 01 - Surubim;25;2;UTI
+105;USB 01 - Surubim;25;1;Básica
+116;USB 01 - Pombos;37;1;Básica
+121;USB 01 - Casinhas;44;1;Básica
+128;USB 01 - Belem de Maria;53;1;Básica
+137;USB 01 - Amaraji;67;1;Básica
+139;USB 01 - Rio Formoso;68;1;Básica
+140;USB 01 - Gameleira;70;1;Básica
+141;USB 01 - Quipapa;71;1;Básica
+158;USB 01 - São Benedito do Sul;78;1;Básica
+126;USB 01 - Xexeu;51;1;Básica
+129;USB 01 - Tamandare;55;1;Básica
+130;USB 01 - Nazare da Mata;57;1;Básica
+159;USB 24 Extra - Recife;1;1;Básica
+160;USB 25 Extra - Recife;1;1;Básica
+161;USB 26 Extra - Recife;1;1;Básica
+162;USB 27 Extra - Recife;1;1;Básica
+163;USB 28 Extra - Recife;1;1;Básica
+164;USB 29 Extra - Recife;1;1;Básica
+165;Helicóptero GTA;6;4;Helicóptero
+102;USB 01 - Palmares;24;1;Básica
+103;USA 01 - Palmares;24;2;UTI
+106;USB 01 - Timbaúba;26;1;Básica
+113;USB 01 - Limoeiro;35;1;Básica
+114;USA 01 - Limoeiro;35;2;UTI
+122;USB 01 - Lagoa dos Gatos;45;1;Básica
+142;USB 01 - Sirinhaem;72;1;Básica
+143;USB 17 - Recife;4;1;Básica
+144;USB 18 - Recife;4;1;Básica
+145;USB 02 - Recife;1;1;Básica
+146;USB 03 - Recife;1;1;Básica
+148;USB 01 - Escada;74;1;Básica
+171;USB 01 - Igarassu;14;1;Básica
+99;VIR / APOIO RÁPIDO - CABO;15;3;Apoio rápido
+98;USA 04 - Recife;1;2;UTI
+115;USB 01 - Paudalho;36;1;Básica
+117;USB 01 - Passira;39;1;Básica
+120;USB 01 - Jaqueira;42;1;Básica
+123;USB 01 - Cortes;47;1;Básica
+124;USB 01 - Barreiros;48;1;Básica
+127;USB 01 - João Alfredo;52;1;Básica
+147;USB 01 - Primavera;73;1;Básica
+149;USA 05 Extra - Recife;1;2;UTI
+150;USB 19 Extra - Recife;1;1;Básica
+151;USB 20 Extra - Recife;1;1;Básica
+152;USB 21 Extra - Recife;1;1;Básica
+153;USB 22 Extra - Recife;1;1;Básica
+154;USB 23 Extra - Recife;1;1;Básica
+166;Moto 05 - Recife;1;6;Moto
+167;Moto 06 - Recife;1;6;Moto
+168;Moto 07 - Recife;1;6;Moto
+169;Moto 08 - Recife;2;6;Moto
+170;USB 01 - Macaparana;79;1;Básica
+118;USB 01 - Bom Jardim;40;1;Básica
+119;USB 01 - Aliança;41;1;Básica
+131;USB 01 - São Vicente Ferrer;58;1;Básica
+132;USB 01 - Camutanga;59;1;Básica
+133;USB 01 - Lagoa de Itaenga;60;1;Básica
+136;USB 01 - Buenos Aires;63;1;Básica
+156;Moto 04 - Recife;6;6;Moto

@@ -1,0 +1,618 @@
+---
+title: " Projeto: SAMU-2015"
+author: "Abilio Nogueira"
+#date: "23/07/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Analise sobre os dados do SAMU  no ano de 2015. {.tabset}
+
+## Introducao ao tema {.tabset}
+
+### O que é o **SAMU** ?
+O Serviço de Atendimento Móvel de Urgência (SAMU 192) tem como objetivo chegar precocemente à vítima após ter ocorrido alguma situação de urgência ou emergência que possa levar a sofrimento, a sequelas ou mesmo à morte. São urgências situações de natureza clínica, cirúrgica, traumática, obstétrica, pediátrica, psiquiátrica, entre outras.
+
+O Ministério da Saúde vem concentrando esforços no sentido de implementar a Política Nacional de Atenção às Urgências, da qual o SAMU 192 é componente fundamental. Tal Política prioriza os princípios do SUS, com ênfase na construção de redes de atenção integral às urgências regionalizadas e hierarquizadas que permitam a organização da atenção, com o objetivo de garantir a universalidade do acesso, a equidade na alocação de recursos e a integralidade na atenção prestada.
+
+O SAMU 192 realiza os atendimentos em qualquer lugar e conta com equipes que reúne médicos, enfermeiros, auxiliares de enfermagem e condutores socorristas.
+
+* Residências;
+* Locais de trabalho;
+* Vias públicas.
+
+Para essa e outras  informaçoes sobre o programa acesse o portal  [Saude.gov](https://www.saude.gov.br/saude-de-a-z/servico-de-atendimento-movel-de-urgencia-samu-192)
+
+### Origem dos  dados
+
+|        Informação               |                    Fonte                       |
+|:-------------------------------:|------------------------------------------------|
+|         Fonte dos Dados         | [Dados Recife](http://dados.recife.pe.gov.br/) |
+|             Criador             | EMPREL                                         |
+|            Mantenedor           | EMPREL                                         |
+| Orgão de origem das informações | Secretaria de Saúde                            |
+| Data de criação                 | 9 de Janeiro de 2015                           |
+| Data da ultima modifição        | 30 de Dezembro de 2016                         |
+
+
+
+## O por que desse estudo {.tabset}
+
+### Motivação
+A escolha do tema, tal como o dataset, veio de um momento onde grande parte da população está com os olhares voltados ao cuidados médicos e sanitários. Acredito que, mesmo com os dados antigos, é possível ter uma visão geral e por municípios (não abordaremos todos e sim veremos alguns exemplos, principalmente, da região metropolitana do Recife) de como o programa estava estruturado no ano de 2015 e servir como um ponto de partida para estudos de crescimento de um dos programas mais importantes do SUS.
+Mesmo se tratando de um projeto que atende mais de 24 estados, focaremos nos dados fornecidos pela prefeitura do Recife onde concentra dados da região metropolitana da cidade, mata sul e mata norte.
+
+### Objetivos
+
+O objetivo geral deste estudo é ter um levantamento, mesmo que parcial, da situação e atuação do SAMU em 2015, relacionando os seguintes principais temas:
+* Quantidade da frota por município;
+* Hospitais;
+* Quantidade de atendimentos;
+* Tempo de atendimento médio
+
+### Estamos em 2020, porquê eu leria ?
+Partindo do ponto que informações devem ser divulgadas, o estudo tem o objetivo de trazer, para você leitor, uma visão de um sistema fundamental do SUS. Essas são informações que levantam um mínimo de interesse, mesmo para quem nunca foi usuário do programa, por políticas públicas voltadas à saúde. Não se desanime ou se espante pela data dos dados mesmo que 5 anos antes podem trazer a você leitor a vontade de buscar mais sobre o tema.
+
+## Pacotes do R {.tabset}
+
+### Pacotes utilizados
+| Pacote  |                            Função                            |
+|:-------:|:------------------------------------------------------------:|
+|  dplyr  |    Para pré-processamento e remocoes de valores ausentes.    |
+|  tidyr  | EMPRELPara pré-processamento e remocoes de valores ausentes. |
+| stringr |                Processamento de Dados textuais               |
+|   tm    |  Processamento de palavras e remoção de caracteres           |
+|wordcloud|  Utilizado para gerar worldclouds                            |
+|RColorBrewer|Coloração das worldclouds                                  |
+|    DT   |       Criação de tabelas                                     |
+|lubridate|        Trabalhar com data/hora                               |
+
+### Carregamento dos Pacotes
+```{r  warning=FALSE,error=FALSE,results='hide',message=FALSE}
+library("dplyr")
+library("stringr")
+library("tm")
+library("wordcloud")
+library("RColorBrewer")
+library("lubridate")
+```
+
+
+## Datasets utilizado {.tabset}
+
+### Coleçao de dados
+O estudo foi sobre toda a coleçao de dados, onde divididos por seus fornecedores, é composta por 7 arquvos no formato csv:
+
+* Bairro2015.csv: Arquivo contendo dados sobre os bairros e seus codigos de indentificaçao
+
+* distrito2015: Arquivo contendo dados sobre os distritos sanitarios
+
+* especialidademedica2015.csv : Arquivo contendo dados sobre as especialidades medicas mapeados pelo sistema do SAMU (nao refletem a totalidade do sistema de saude do estado).
+
+* hospital2015.csv:Arquivo contendo dados sobre os hospitais mapeados pelo sistema SAMU (nao refletem a totalidade do sistema de saude do estado).
+
+* remocoes2015.csv: Arquivo contendo dados sobre as remocoes feitas pelo SAMU.
+
+* solicitacoes2015.csv: Arquivo contendo dados sobre as solicitacoes de atendimento feitas pela SAMU.
+
+* viatura2015.csv: As viaturas dipostas pelos socorristas e equipe medica do SAMU.
+
+Todos os dados avaliados foram do ano de 2015, e a base possui um bom dicionario de dados.
+
+### Abordagem dos Dados
+Como visto na seção Coleção de Dados, os dados estão dispostos em um conjunto de 7 arquivos. Com isso, serão expostas informações extraídas da junção de alguns datasets e outros individualmente. Colunas também foram removidas a fim de fornecer tabelas menores e com informações úteis para as análises.
+
+Teremos um tópico para cada tipo de análise, sendo eles: * Viaturas * Hospitais e Distritos * Chamados e Atendimentos:
+
+* Viaturas 
+* Hospitais e Distritos 
+* Chamados e Atendimentos
+
+## Analise dos dados {.tabset}
+
+
+### Analise sobre as viaturas do SAMU-2015
+####  Importando a base
+``` {r error=FALSE,warning=FALSE}
+perfil_viatura <- read.csv('Dados SAMU/viatura2015.csv',sep = ';')
+```
+
+#### Quantidade Total de Viaturas
+```{r error=FALSE, echo=FALSE}
+length(perfil_viatura$tipoviatura_descricao)
+```
+
+#### Contando o tipo de cada viatura
+``` {r }
+tipos_de_viatura <-unique(perfil_viatura$tipoviatura_descricao)
+quantidade_por_viaturas <- data.frame()
+for ( tipo in tipos_de_viatura) {
+  total <-sum(perfil_viatura$tipoviatura_descricao==tipo)
+  linha<- c(tipo,total)
+  quantidade_por_viaturas <- rbind.data.frame(quantidade_por_viaturas, linha)
+  
+}
+names(quantidade_por_viaturas) <- c('Tipo','Quantidade')
+quantidade_por_viaturas$Quantidade <- as.numeric(quantidade_por_viaturas$Quantidade)
+
+
+DT::datatable(quantidade_por_viaturas, rownames = FALSE, filter = "none",caption = "Quantidade de Viaturas" )
+```
+
+#### Gerando grafico pizza da distribuiçåo dos tipos de veiculos da frota do SAMU 
+```{r}
+pcem <-round(quantidade_por_viaturas$Quantidade/sum(quantidade_por_viaturas$Quantidade)*100)
+label_pcem <- paste(quantidade_por_viaturas$Tipo, pcem)
+label_pcem <- paste(label_pcem,"%",sep="")
+pie(main = "Grafico da distribuiçåo dos tipos de veiculos da frota do SAMU 2015",quantidade_por_viaturas$Quantidade,labels = label_pcem,col=rainbow(length(quantidade_por_viaturas$Quantidade)))
+legend("topright",legend= quantidade_por_viaturas$Tipo,cex = 0.6, fill = rainbow(length(quantidade_por_viaturas$Quantidade)))
+```
+
+**Conseguimos já observar que a maior parte das viaturas são voltadas ao atendimento básico, somando os tipos com e sem maca obtemos 75% de todos os veículos, vamos buscar entender se esse é realmente o foco dos atendimentos. **
+
+
+### Analise sobre Especialidades Hospitalares
+#### Carregando datasets
+
+```{r}
+perfil_espec_medicas <- read.csv('Dados SAMU/especialidademedica2015.csv',sep = ';',strip.white = T,na.strings = " ")
+dataset_bairro <- read.csv('Dados SAMU/bairro2015.csv',sep = ';',strip.white = T,na.strings = " ")
+dataset_distritos <- read.csv('Dados SAMU/distrito2015.csv',sep = ';',strip.white = T,na.strings = " ")
+perfil_hospitais <- read.csv('Dados SAMU/hospital2015.csv',sep = ';',strip.white = T,na.strings = " ")
+
+```
+
+#### Juntandos os datasets de especialidades,hospitais,bairros e distritos, para assim criar a relação entre especialidades e cidades
+```{r}
+base_hospitais <- merge(x=perfil_espec_medicas,y=perfil_hospitais)
+base_hospital_bairro <- merge(x=base_hospitais,y=dataset_bairro)
+base_medica_localidade <- merge(x=base_hospital_bairro,y=dataset_distritos)
+
+```
+
+#### Visualizando o conjunto base_medica_localidade
+```{r}
+head(base_medica_localidade)
+```
+
+#### Realizando a limpeza de algumas colunas com valore ausentes
+```{r}
+base_medica_localidade$bairrosaude_codigo<- NULL
+base_medica_localidade$municipio_codigo<- NULL
+```
+
+#### Sobre especialidades {.tabset}
+
+Vamos observar uma nuvem de palavras com as especialidades de algumas cidades,o exemplo é que basta ter uma especialidade e ela será exibida, sendo assim
+um nuvem mais populosa demonstra que aquela cidade tem mais especialidades.
+
+Foi desenvolvida uma função com o objetivo de gerar as nuvens de palavras.
+
+```{r}
+gerar_wolrdcloud_espcialidade_municipio = function(nome_municipio){
+  especialidades <- subset(base_medica_localidade,base_medica_localidade$municipio_descricao==nome_municipio)
+  corpus_especialidade <- Corpus(VectorSource(especialidades$especialidade_descricao))
+  corpus_especialidadeo <- tm_map(corpus_especialidade, tolower)
+  corpus_especialidade <-tm_map(corpus_especialidade, removePunctuation)
+  corpus_especialidade <-tm_map(corpus_especialidade, stripWhitespace)
+  matriz_especialidades <- as.matrix(TermDocumentMatrix(corpus_especialidade))
+  wordcloud(corpus_especialidade,min.freq = 1,max.words = 50, random.order = FALSE, rot.per = 0.35, colors =rainbow(8))
+}
+```
+
+##### Recife
+```{r warning=FALSE}
+gerar_wolrdcloud_espcialidade_municipio('Recife')
+```
+
+
+##### Paulista
+```{r warning=FALSE}
+gerar_wolrdcloud_espcialidade_municipio('Paulista')
+```
+
+
+##### Camaragibe
+```{r warning=FALSE}
+gerar_wolrdcloud_espcialidade_municipio('Camaragibe')
+```
+
+### Analise sobre Cidades
+
+#### Criando a base de localidade, unindo Distritos com Bairros
+```{r}
+base_localidade <- merge(x=dataset_distritos,y=dataset_bairro)
+head(base_localidade)
+```
+
+#### Padronizando a coluna `distritosanitario_descricao`
+```{r}
+base_localidade$distritosanitario_descricao <-str_to_upper(base_localidade$distritosanitario_descricao)
+```
+
+#### Analisando viaturas por distritos e bairros {.tabset}
+
+Vamos agora observar a quantidade de viaturas e especilidade para cada  município.
+
+A função a baixo , dado um município da nossa lista ( ou um Distrito para a cidade do Recife) e com isso será levantado seu código e assim relacionar os bairros e viaturas que atendem ao bairro.
+
+```{r}
+gerar_viaturas_por_municipio = function(nome_municipio){
+  #Exemplificando com um municipio
+  municipio <- subset(base_localidade,base_localidade$distritosanitario_descricao == nome_municipio)
+  #Consigo saber qual o distrito sanitario da minha cidade, que engloba todos meus bairros de saude
+  codigo_distrito <- unique(municipio$distritosanitario_codigo)
+  #buscar agora a quantidade de veiculos dipostos a cidade 
+  viaturas_saude <- subset(perfil_viatura,perfil_viatura$distritosanitario_codigo==codigo_distrito)
+  cat('Temos um total de ',length(viaturas_saude$viatura_codigo),'viatura(s), com as seguintes especialidades:')
+  for (tipoV in viaturas_saude$tipoviatura_descricao){
+    cat('\n',tipoV)
+  }
+}
+
+```
+
+##### Cidade de Moreno
+```{r}
+gerar_viaturas_por_municipio('CIDADE MORENO')
+```
+
+##### Cidade de ABREU E LIMA
+```{r}
+gerar_viaturas_por_municipio('CIDADE ABREU E LIMA')
+```
+
+
+##### Cidade de Vitoria de Santo Antao
+```{r}
+gerar_viaturas_por_municipio('CIDADE VITORIA DE SANTO ANTAO')
+```
+
+
+### O que percebemos até agora ?
+
+Até esse momento podemos ter um panorama da distribuição da frota e especialidades médicas, conseguimos facilmente observar que a maioria é concentrado no Recife, e o que isso pode gerar de efeito negativo?
+
+Temos que ter em mente que algo emergencia, que é o foco do SAMU, precisa de bases mais decentralizadas criando pontos mais estratégicos fora da cidade do Recife que por si só já tem um transito caótico.  Se podemos fazer uma indicação	de primeiro providencia a ser tomada é poder ter outros polos descentralizados de especialidades em cidades mesmo que perto da região metropolitana mas que possam atender a chamados das cidades da zona da mata, agreste e sertão sem sobrecarregar a capital do estado e  acabar perdendo minutos, que no socorro podem significar a vida ou morte, em seus famosos engarrafamentos.   
+
+Para essa segunda parte vamos analisar a parte de dados mais densa com os **atendimentos realizados**. Inicialmente divido em outros 2 arquivos. 
+
+
+### Atendimentos SAMU 2015 {.tabset}
+
+Vamos agora falar sobre as bases principais do nosso estudo,**Remoções** e **Atendimentos**
+
+#### Pré-Processamento Remoções
+
+##### Carregando Dados
+```{r}
+remocoes <- read.csv('Dados SAMU/remocoes2015.csv',sep = ';', na.strings = '') 
+```
+
+##### Uma pequena amostra da base 
+```{r}
+
+head(remocoes)
+```
+
+
+##### Avaliando a base  
+```{r}
+str(remocoes)
+```
+
+##### Preenchimento  
+```{r}
+cat('Linhas presentes:',length(remocoes$solicitacao_numero))
+cat('\nValores ausentes :',sum(is.na(remocoes)))
+cat('\nNumero de linhas completas:',length(remocoes[complete.cases(remocoes),]))
+```
+
+##### Colunas
+```{r}
+names(remocoes)
+```
+
+
+##### Removendo as linhas que não foram informadas 
+```{r}
+remocoes$chegada_datahora<- NULL
+remocoes$saida_datahora<- NULL
+remocoes$naoaceitacao_codigo<- NULL
+remocoes$naoaceitacao_descricao<- NULL
+```
+
+##### Visualizando agora a base processada 
+```{r}
+cat('Linhas presentes:',length(remocoes$solicitacao_numero))
+cat('\nValores ausentes :',sum(is.na(remocoes)))
+cat('\nNumero de linhas completas:',length(remocoes[complete.cases(remocoes),]))
+```
+
+```{r}
+names(remocoes)
+str(remocoes)
+```
+
+#### Pré-Processamento Atendimentos
+
+##### Carregando Dados
+```{r}
+atendimentos <- read.csv('Dados SAMU/solicitacoes2015.csv',sep = ';', na.strings = c(""))
+```
+
+##### Uma pequena amostra da base 
+```{r}
+
+head(atendimentos)
+
+```
+
+
+##### Avaliando a base  
+```{r}
+str(atendimentos)
+```
+
+##### Preenchimento  
+```{r}
+cat('\nLinhas presentes:',length(atendimentos$solicitacao_numero))
+cat('\nValores ausentes :',sum(is.na(atendimentos)))
+cat('\nNumero de linhas completas:',length(atendimentos[complete.cases(atendimentos),]))
+```
+
+##### Colunas
+```{r}
+names(atendimentos)
+
+```
+
+##### Eliminando `atendimentos$atendimentos$paciente_idademeses`
+
+```{r}
+atendimentos$paciente_idademeses <- NULL
+cat('Valores ausentes :',sum(is.na(atendimentos)))
+```
+
+Agora reduzimos boa parte dos valores que vinham apenas de uma coluna não informada, e que para nós tambem não fara falta, visto que já temos a idade em anos.
+
+
+
+
+
+##### Removendo a coluna que não teve nada processado
+```{r}
+atendimentos$paciente_idademeses <- NULL
+```
+
+##### Visualizando novamente
+```{r}
+cat('\nLinhas presentes:',length(atendimentos$solicitacao_numero))
+cat('\nValores ausentes :',sum(is.na(atendimentos)))
+cat('\nNumero de linhas completas:',length(atendimentos[complete.cases(atendimentos),]))
+```
+
+##### Vamos agora avaliar as demais colunas com espaços em branco 
+
+###### Primeiro vamos ver o significado das colunas, pois temos algumas que podem ou não ser preenchidas 
+```{r}
+dicionario_dados_atendimentos <- read.csv('dict.csv', sep = ',')
+DT::datatable(dicionario_dados_atendimentos, rownames = FALSE, filter = "none",caption = "Legenda das Colunas" )
+```
+
+Vale a pena observar que alguns campos são preenchidos apenas se aquele fato aconteceu, então como temos esssas peculiaridades vamos analisar todas as colunas para assim determinar a melhor forma de preenche-las.
+
+As colunas que mais chamaram atencão foram:
+
+* sistemasaude_codigo
+* motivodescarte_codigo
+* tipoocorrencia_codigo
+
+Somandoas temos `r length(which(is.na(atendimentos$sistemasaude_codigo)))+length(which(is.na(atendimentos$motivodescarte_codigo)))+length(which(is.na(atendimentos$tipoocorrencia_codigo)))` dos valores ausentes.
+
+**Nesses casos, vamos subistituir os valores ausentes por -1 e definir como valores não informados, fazendo com que durante nossas analises usarmos esse parametro.**
+
+```{r}
+#Para remover da coluna tipoocorrencia_codigo
+atendimentos[which(is.na(atendimentos$tipoocorrencia_codigo)), 'tipoocorrencia_codigo'] <- -1
+atendimentos$tipoocorrencia_codigo <- as.factor(atendimentos$tipoocorrencia_codigo)
+
+#Para remover da coluna motivodescarte_codigo
+atendimentos[which(is.na(atendimentos$motivodescarte_codigo)), 'motivodescarte_codigo'] <- -1
+atendimentos$motivodescarte_codigo <- as.factor(atendimentos$motivodescarte_codigo)
+
+#Para remover da coluna sistemasaude_codigo
+atendimentos[which(is.na(atendimentos$sistemasaude_codigo)), 'sistemasaude_codigo'] <- -1
+atendimentos$sistemasaude_codigo <- as.factor(atendimentos$sistemasaude_codigo)
+
+
+```
+
+**Já nos casos textuais ausentes, vamos adicionar "nao_informado" para subistituir nesses casos.**
+```{r}
+#Para remover da coluna sistemasaude_descricao
+atendimentos[which(is.na(atendimentos$sistemasaude_descricao)), 'sistemasaude_descricao'] <- 'nao_informado'
+atendimentos$sistemasaude_descricao <- as.factor(atendimentos$sistemasaude_descricao)
+
+#Para remover da coluna motivodescarte_descricao
+atendimentos[which(is.na(atendimentos$motivodescarte_descricao)), 'motivodescarte_descricao'] <- 'nao_informado'
+atendimentos$motivodescarte_descricao <- as.factor(atendimentos$motivodescarte_descricao)
+
+#Para remover da coluna data_acionamento
+atendimentos[which(is.na(atendimentos$data_acionamento)), 'data_acionamento'] <- 'nao_informado'
+atendimentos$data_acionamento <- as.factor(atendimentos$data_acionamento)
+
+#Para remover da coluna data_chegada
+atendimentos[which(is.na(atendimentos$data_chegada)), 'data_chegada'] <- 'nao_informado'
+atendimentos$data_chegada <- as.factor(atendimentos$data_chegada)
+
+#Para remover da coluna data_remocao
+atendimentos[which(is.na(atendimentos$data_remocao)), 'data_remocao'] <- 'nao_informado'
+atendimentos$data_remocao <- as.factor(atendimentos$data_remocao)
+
+#Para remover da coluna tipoocorrencia_descricao
+atendimentos[which(is.na(atendimentos$tipoocorrencia_descricao)), 'tipoocorrencia_descricao'] <- 'nao_informado'
+atendimentos$tipoocorrencia_descricao <- as.factor(atendimentos$tipoocorrencia_descricao)
+```
+
+
+```{r}
+cat('\nValores ausentes :',sum(is.na(atendimentos)))
+
+```
+
+Faltando apenas `r sum(is.na(atendimentos))` valores, vamos verificar as colunas de datas 
+
+```{r}
+#Para remover da coluna data_conclusao
+atendimentos[which(is.na(atendimentos$data_conclusao)), 'data_conclusao'] <- 'nao_informado'
+atendimentos$data_conclusao <- as.factor(atendimentos$data_conclusao)
+
+#Por fim , para limpar a idade_anos teremos -1 como nao informado
+atendimentos[which(is.na(atendimentos$paciente_idadeanos)), 'paciente_idadeanos'] <- -1
+atendimentos$paciente_idadeanos <- as.factor(atendimentos$paciente_idadeanos)
+
+```
+
+
+```{r}
+cat('\nValores ausentes :',sum(is.na(atendimentos)))
+```
+
+
+**É necessário destacarmos que os dados fornecidos datam apenas de Janeiro a Maio do ano corrente, inviabilizando a busca de meses com mais casos.**
+
+Também se faz limitado a busca por dias de solicitação pois o mesmo retorna apenas `r unique(wday(atendimentos$solicitacao_data)) ` como dias de solicitação de chamados. Não fazendo sentido processar esses dias pois representam menos de 40% de um mês comercial. 
+
+
+#### Resultados {.tabset}
+
+##### Tipos de Ocorrência
+Vamos visulizar as ocorrencias mais recorrentes dos atendimentos registrados.
+```{r warning=FALSE}
+tipos_ocorrencia_set = select(atendimentos, tipoocorrencia_descricao)
+tipos <-unique(tipos_ocorrencia_set$tipoocorrencia_descricao) 
+tipos <- tipos[-2]
+quantidade_ocorrencia <-mapply(FUN = quantidade <- function(tipo) {
+  return(sum(tipos_ocorrencia_set$tipoocorrencia_descricao==tipo))
+},tipos)
+
+quantidade_ocorrencia <- data_frame(tipo_ocorrencia = tipos,quantidade = quantidade_ocorrencia)  
+
+
+
+
+```
+
+
+```{r}
+DT::datatable(quantidade_ocorrencia, rownames = FALSE, filter = "none",caption = "Ocorrencia registradas e informadas" )
+```
+
+
+
+##### Doenças registradas
+
+Vamos visuliazar as doenças mais recorrentes nos atendimentos
+```{r}
+#Filtrando os tipos de doencas 
+tipos_doenca_set = select(atendimentos, sistemasaude_descricao)
+doencas <- unique(tipos_doenca_set$sistemasaude_descricao)
+doencas <- doencas[-2]
+doencas_ocorrencia <-mapply(FUN = quantidade <- function(tipo) {
+  return(sum(tipos_doenca_set$sistemasaude_descricao==tipo))
+},doencas)
+doencas_registradas <- data_frame(doenca =doencas,quantidade = doencas_ocorrencia)
+
+
+DT::datatable(doencas_registradas, rownames = FALSE, filter = "none",caption = "Doenças Atendidas" )
+
+```
+
+Vamos agora visualizar uma nuvem de palavras com o nome das doenças que atingiram ao menos 200 casos.
+```{r warning=FALSE}
+
+corpus_doenca <- Corpus(VectorSource(doencas_registradas$doenca))
+corpus_doenca <- tm_map(corpus_doenca, tolower)
+matriz_doenca <- as.matrix(TermDocumentMatrix(corpus_doenca))
+wordcloud(corpus_doenca,min.freq = 200,max.words = 25, random.order = FALSE, rot.per = 0.35, colors =c("red",'purple'))
+
+```
+
+
+##### Origem dos chamados atendidos pelo SAMU
+ Vamos observar agora a origem dos chamados atendidos.
+```{r}
+origem_set <- select(atendimentos,origemchamado_descricao)
+origens <- unique(origem_set$origemchamado_descricao)
+origem_ocorrencia <-mapply(FUN = quantidade <- function(tipo) {
+  return(sum(origem_set$origemchamado_descricao==tipo))
+},origens)
+origens_registradas <- data_frame(origem = origens,quantidade = origem_ocorrencia)
+sum(origens_registradas$quantidade)
+```
+
+ Logo a baixo vemos as classes dos casos atendidos. Salientando que esses valores são dos casos informados.
+
+```{r}
+pcem <-round(origens_registradas$quantidade/sum(origens_registradas$quantidade)*100)
+label_pcem <- paste(origens_registradas$origem, pcem)
+label_pcem <- paste(label_pcem,"%",sep="")
+pie(main = "Origens dos chamados realizados",origens_registradas$quantidade,labels = label_pcem,col=rainbow(length(origens_registradas$quantidade)))
+legend("topleft",legend= origens_registradas$origem,cex = 0.6, fill = rainbow(length(origens_registradas$quantidade)))
+
+```
+
+##### Por ultimo, vamos analisar a media de tempo de atendimento em cada cidade
+
+Essa etapa é muito importante para a finalização do nosso estudo, pois trata bastante dos pontos visto anteriormente da concentração das especialidades numa única cidade , que mesmo sendo a capital do estado ,  pode criar empecilhos de atraso nos socorros tanto de deslocamento até o local quanto de remoção dos pacientes.
+
+Cuidados foram tomados para não distorcer o tempo de atendimento, por isso só foi considerado atendimentos que realmente foram ao local do paciente e foram informados inicio e fim do chamado. Vamos retirar os que não tiveram ao menos 100 chamados para não poluirem a média.
+
+Vejamos a baixo:
+```{r}
+#Vamos criar um dataset sobre localidade e tempo.
+
+tempo_localidade_set <- select(atendimentos,solicitacao_data,bairrosaude_codigo,data_acionamento,data_conclusao,tipoocorrencia_descricao,situacaosolicitacao_descricao)
+#Removendo as linhas com nao informado e que nao tiveram atendimento concluido
+tempo_localidade_set <- subset(tempo_localidade_set,tempo_localidade_set$data_conclusao!='nao_informado'&tempo_localidade_set$situacaosolicitacao_descricao=='CONCLUIDA')
+#Chamando o dataset para indentificar a localidade
+tempo_localidade_set <- merge(x=tempo_localidade_set,y=base_localidade)
+#Buscando o tempo medio dos municipios
+municipio_chamado <- unique(tempo_localidade_set$municipio_descricao)
+tempo_m <- function(municipio){
+  tempo_mun <- 0 
+  mun_base <- subset(tempo_localidade_set,tempo_localidade_set$municipio_descricao==municipio)
+  tempo_mun <- as.numeric(difftime(mun_base$data_conclusao,mun_base$solicitacao_data,units = 'mins'))
+  med <- format(round(mean(tempo_mun),2), nsmall = 2)
+  ifelse(length(tempo_mun)>100,return(med),return(-1))
+}
+
+municipio_tempo_medio <- tempo_atendimento<- sapply(FUN = tempo_m ,municipio_chamado)
+municipio_tempo_medio_atendimento <- data_frame(municipio = municipio_chamado,quantidade = municipio_tempo_medio)
+#Removendo aqueles que não tiveram 100 atendimentos
+municipio_tempo_medio_atendimento <- subset(municipio_tempo_medio_atendimento,municipio_tempo_medio_atendimento$quantidade>0)
+municipio_tempo_medio_atendimento<-municipio_tempo_medio_atendimento%>%
+  arrange(desc(municipio_tempo_medio_atendimento$quantidade))
+
+DT::datatable(municipio_tempo_medio_atendimento,rownames = FALSE, filter = "none",caption = "Tempo medio de atendimento por Municipio (minutos)" )
+
+```
+
+
+
+## Conclusão
+
+Muitas dificuldades vinhetas desse estudo, muito pela base incompleta e com dados de certas séries temporais, como meses e dias que foram segregados fazendo que assim como feriados importantes não fossem computados.
+
+Sem contar boa parte de descrições ausentes fizeram com que o foco da análise fosse mudado para uma análise estrutural do funcionamento logístico do programa SAMU. 
+
+Vimos a concentração  de especialidades médicas em determinados centros metropolitanos  combinado como uma frota que três quartos é composta por unidades básicas , então a logística se mostrou uma das maiores problemáticas do atual sistema.
+
+Também se faz importante salientar o por que o fato da coluna que fala sobre acompanhamento médicos não ter sido abordada, coluna a qual inicialmente foi pensando em ser o centro da análise.Tal coluna foi desconsiderada pois tivemos menos de 2% registros positivos nessa coluna e por não informarem a gravidade do atendimento não teríamos como precisar se foi problema de logística ou não , mas podemos observar que esse número 0.05% casos foram remoções entre unidades de saúde e talvez assim tornando-se obrigatório.
+
+Com isso concluo que o SAMU , nesses 5 anos que se passaram desde a alimentação dessa base, travou duras batalhas com sua operação interna , trazendo mais frotas e contando com a pluralização das especialidades médicas para cidades mais afastadas da capital pernambucana.
+

@@ -1,0 +1,23 @@
+Nome da Coluna,Descrição
+solicitacao_numero,Numero da solicitação
+solicitacao_data,Data e hora da solicitação (call center)
+paciente_sexo,Sexo do paciente
+paciente_idadeanos,Idade do paciente em anos
+paciente_idademeses,Idade do paciente em meses
+bairrosaude_codigo,Código do bairro
+bairrosaude_descricao,Descritivo do bairro
+origemchamado_codigo,Código da origem do chamado
+origemchamado_descricao,Descricão da origem do chamado
+situacaosolicitacao_codigo,Código da situação da solicitação
+situacaosolicitacao_descricao,Descrição da situação da solicitação
+sistemasaude_codigo,Código do sistema de saúde - Doenças
+sistemasaude_descricao,Descrição do sistema de saúde - Doenças
+motivodescarte_codigo,Código do motivo de descarte de atendimento. Apenas preenchido quando o atendimento não efetivado.
+motivodescarte_descricao,Descricão do motivo de descarte. Apenas preenchido quando o atendimento não efetivado.
+acompanhamento_medico,Identifica se houve acompanhamento medico no atendimento da solicitação
+datahora_acionamento,Data e hora do acionamento de equipe
+datahora_chegada,Data e hora de chegada da solicitação
+datahora_conclusao,Data e hora da conclusão do atendimento
+datahora_remocao,Data e hora da remoção
+tipoocorrencia_codigo,Código do Tipo de ocorrência
+tipoocorrencia_descricao,Descrição do Tipo de ocorrência
